@@ -16,8 +16,8 @@ app.use((err, req, res, next) => {
   }
 });
 
-var server = app.listen(3000, () => {
-  console.log(`Server Started at ${3000}`);
+var server = app.listen(process.env.PORT, () => {
+  console.log(`Server Started at ${process.env.PORT}`);
 });
 
 var exitHandler = (event,err) => {

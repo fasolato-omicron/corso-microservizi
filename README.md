@@ -14,6 +14,7 @@
 ## Payments
 
 - `http localhost:3000/payments/healthcheck`
+- `http post localhost:3000/payments/pay/2ea062cd-56af-4d24-93b6-50ebd8860f12/53d11dfc-3cda-4c31-9ebe-9aa139897028`
 
 https://www.freecodecamp.org/news/build-a-restful-api-using-node-express-and-mongodb/
 https://www.sqlitetutorial.net/sqlite-nodejs/
