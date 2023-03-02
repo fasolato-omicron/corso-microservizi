@@ -15,3 +15,5 @@
 - `http localhost:3000/payments/healthcheck`
 
 https://www.freecodecamp.org/news/build-a-restful-api-using-node-express-and-mongodb/
+https://www.sqlitetutorial.net/sqlite-nodejs/
+
