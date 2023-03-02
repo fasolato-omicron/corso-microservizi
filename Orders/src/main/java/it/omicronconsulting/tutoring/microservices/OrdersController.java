@@ -21,13 +21,13 @@ public class OrdersController {
         log.info("Received order {}", orderRequest);
 
         if(orderRequest.getId() == null) {
-            return ResponseEntity.internalServerError().body("Order ID must be a valid UUID");
+            return ResponseEntity.badRequest().body("Order ID must be a valid UUID");
         }
         if(orderRequest.getUserId() == null) {
-            return ResponseEntity.internalServerError().body("Order user ID must be a valid UUID");
+            return ResponseEntity.badRequest().body("Order user ID must be a valid UUID");
         }
         if(orderRequest.getItems() == null || orderRequest.getItems().isEmpty()) {
-            return ResponseEntity.internalServerError().body("An order must have at least an item");
+            return ResponseEntity.badRequest().body("An order must have at least an item");
         }
 
         return ResponseEntity.internalServerError().body("TODO");
