@@ -8,7 +8,8 @@
 ## Warehouse
 
 - `http localhost:3000/warehouse/healthcheck`
-- `echo '{"id": "fb7890ce-314c-430f-8e4f-82039bbb8566", "items": [{"id": "42f0aa33-ccf0-4ee8-a578-d6e720e39bf8", "quantity": 2}, {"id": "bc101645-779a-4f10-90f6-11bf95057d27", "quantity": 10}]}' | http post localhost:3000/warehouse/send_items`
+- `echo '{"id": "fb7890ce-314c-430f-8e4f-82039bbb8566", "items": [{"id": "c83aec45-1df1-4a1b-816e-6e980c020e6d", "quantity": 2}, {"id": "15fc188f-963b-4df4-8065-85f1c03f44e4", "quantity": 10}]}' | http post localhost:3000/warehouse/send_items`
+- `echo '{"id": "fb7890ce-314c-430f-8e4f-82039bbb8566", "items": [{"id": "c83aec45-1df1-4a1b-816e-6e980c020e6d", "quantity": 2}]}' | http post localhost:3000/warehouse/send_items`
 
 ## Payments
 
