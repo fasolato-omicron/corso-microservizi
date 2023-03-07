@@ -21,4 +21,20 @@ router.post("/pay/:id/:userId", async (req, res, next) => {
   res.end("OK");
 });
 
+router.get("/:id/check", async (req, res, next) => {
+  console.log("Pay request", req.params);
+
+  try {
+    const payment = await service.getById(req.params.id, req.params.userId);
+    if(payment.status === "OK") {
+      res.send(payment);
+    } else {
+      throw new BadRequestError(`Payment ${req.params.id} is invalid`)
+    }
+  } catch (err) {
+    next(err);
+  }
+
+});
+
 module.exports = router;
