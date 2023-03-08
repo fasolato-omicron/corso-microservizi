@@ -17,6 +17,12 @@ import java.time.Duration;
 public class OrdersController {
     private static Logger log = LoggerFactory.getLogger(OrdersController.class);
 
+    private PropertiesBean propertiesBean;
+
+    public OrdersController(PropertiesBean propertiesBean) {
+        this.propertiesBean = propertiesBean;
+    }
+
     @GetMapping("/healthcheck")
     public ResponseEntity<?> healthCheck() {
         return ResponseEntity.ok("");
@@ -41,7 +47,7 @@ public class OrdersController {
                 orderRequest.getItems().stream().map(i -> new WarehouseItem(i.getId(), i.getQuantity())).toList()
         );
 
-        WebClient warehouseClient = WebClient.create("http://localhost:3000/warehouse");
+        WebClient warehouseClient = WebClient.create(propertiesBean.servicesWarehouseUrl());
         try {
             String res = warehouseClient
                     .post()
