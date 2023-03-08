@@ -11,6 +11,7 @@ services:
       - omicron-microservizi
     ports:
       - 8080:8080
+    command: ["--services.orders.url=http://orders:3000/orders", "--services.warehouse.url=http://warehouse:3000/warehouse"]
 
   payments:
     build: Payments
