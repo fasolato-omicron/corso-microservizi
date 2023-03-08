@@ -30,74 +30,10 @@ services:
       - omicron-microservizi-warehouse:/usr/payments/db
     ports:
       - 8082:3000
-#   utilities:
-#     build: utilities
-#     image: ${PROJECT_NAME}-utilities:${PROJECT_VERSION}
-#     restart: unless-stopped
-#     networks:
-#       - OmicronDevEnvironment
-#     volumes:
-#       - common:/mnt/common
-
-#   postgres:
-#     image: postgres:15.1-alpine
-#     restart: unless-stopped
-#     environment:
-#       POSTGRES_PASSWORD: password
-#       POSTGRES_DB: ${PROJECT_NAME}
-#     networks:
-#       - OmicronDevEnvironment
-#     ports:
-#       - 5432:5432
-#     volumes:
-#       - common:/mnt/common
-#       - postgres:/var/lib/postgresql/data
-
-#   sqlserver:
-#     image: mcr.microsoft.com/mssql/server:2022-latest
-#     restart: unless-stopped
-#     networks:
-#       - OmicronDevEnvironment
-#     ports:
-#       - 1433:1433
-#     environment:
-#       - ACCEPT_EULA=Y
-#       - MSSQL_SA_PASSWORD=Password12345
-#     volumes:
-#       - common:/mnt/common
-#       - sqlserver:/var/opt/mssql
-
-#   mongodb:
-#     image: mongo:6.0.4-jammy
-#     restart: unless-stopped
-#     networks:
-#       - OmicronDevEnvironment
-#     ports:
-#       - 27017:27017
-#     environment:
-#       - MONGO_INITDB_ROOT_USERNAME=admin
-#       - MONGO_INITDB_ROOT_PASSWORD=password
-#     volumes:
-#       - common:/mnt/common
-#       - mongodb:/data/db
-
-#   adminer:
-#     image: adminer:4.8.1
-#     restart: unless-stopped
-#     networks:
-#       - OmicronDevEnvironment
-#     ports:
-#       - 8080:8080
-#     volumes:
-#       - common:/mnt/common
 
 volumes:
   omicron-microservizi-payments:
   omicron-microservizi-warehouse:
-#   common:
-#   postgres:
-#   sqlserver:
-#   mongodb:
 
 networks:
   omicron-microservizi:
