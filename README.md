@@ -12,11 +12,34 @@ I progetti sono:
 
 Il processo prevede che venga richiesta la conferma di un ordine a **Orders**, che a sua volta fa scattare una chiamata a **Warehouse** per il controllo di giacenza a magazzino e una chiamata a **Payments** per il controllo del pagamento dell'ordine. Se entrambi i servizi rispondono OK si può dare conferma all'utente finale.
 
+## Code
+
+Il progetto fa partire un container con rabbitmq in ascolto sulle sue porte standard. Per la sua gestione (http://localhost:15672) l'utente e' `admin` con password `admin`.
+
+Come esempio i due progetti `Orders` e `Warehouse` lavorano su due code di test:
+
+- `queueA`: `Orders` scrive su questa coda e `Warehouse` legge i messaggi accodati
+- `queueB`: `Warehouse` scrive su questa coda e `Orders` legge i messaggi accodati
+
+I messaggi non hanno alcuna struttura o logica: i due servizi scrivono e leggono i messaggi come stringa, loggando quello che arriva in ingresso.
+
 ## Orders
 
 Applicazione SpringBoot, senza DB, che funge da front-end verso l'utente.
 
 ### Configurazione
+
+L'applicazione ha i seguenti parametri:
+
+- `services.orders.url`: L'url del servizio di Orders
+- `services.warehouse.url`: L'url del servizio di Warehouse
+- `spring.rabbitmq.host`: L'host di rabbitmq
+- `spring.rabbitmq.port`: La porta di rabbitmq (5672 di default)
+- `spring.rabbitmq.username`: User per rabbitmq
+- `spring.rabbitmq.password`: Password per rabbitmq
+- `services.queue.queueA`: Il nome della coda A
+- `services.queue.queueB`: Il nome della coda B
+
 
 ### Build ed esecuzione
 
@@ -47,6 +70,25 @@ Il servizio ha i seguenti endpoint:
     ```
 
   - Il metodo controlla la disponibilità degli Item dell'ordine e il pagamento dell'ordine e in base a quello restituisce un risultato positivo o negativo
+- `POST localhost:8080/orders/queue-test`
+
+  - Body:
+
+    ```json
+    {
+      "id": "6f7a80b9-6e65-4483-80d4-00011b94a584",
+      "items": [
+        {
+          "id": "c83aec45-1df1-4a1b-816e-6e980c020e6d",
+          "quantity": 2,
+          "unitPrice": 12.45
+        }
+      ],
+      "userId": "0e979720-52cf-4349-8930-98315da8373d"
+    }
+    ```
+
+  - Il metodo invia il body passato alla coda A
 
 ## Warehouse
 
@@ -82,6 +124,9 @@ Dopo aver installato le dipendenze con `npm install` si avvia l'applicazione con
     }
     ```
   - Il metodo controlla la disponibilità dei pezzi e se presenti ne aggiorna la giacenza e risponde con uno stato OK
+- `POST localhost:3000/warehouse/send-test-message`
+  - Body: qualunque
+  - Il metodo invia il body passato alla coda B
 
 ## Payments
 
