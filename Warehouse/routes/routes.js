@@ -1,5 +1,6 @@
 const express = require("express");
 const repository = require("../repository/repository");
+const queueRepository = require("../repository/queue-repository");
 const { NotFoundError, BadRequestError, InternalError } = require("../errors");
 
 const router = express.Router();
@@ -51,6 +52,15 @@ router.post("/send_items", async (req, res, next) => {
       }
     }
   }
+
+  res.end("OK");
+});
+
+router.post("/send-test-message", async (req, res) => {
+  const msg = req.body;
+  console.log("Send test message", msg);
+
+  queueRepository.sendMessage(msg);
 
   res.end("OK");
 });

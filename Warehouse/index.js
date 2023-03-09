@@ -1,5 +1,6 @@
 const express = require("express");
 const routes = require("./routes/routes");
+const amqp = require('amqplib/callback_api');
 require("dotenv").config();
 
 const app = express();
@@ -43,3 +44,27 @@ var exitHandler = (event,err) => {
 process.on("uncaughtException", (error, source) => {
   console.error("Uncaught error", error, source);
 })
+
+
+
+
+amqp.connect(
+  {hostname: process.env.RABBIT_HOST, username: process.env.RABBIT_USER, password: process.env.RABBIT_PASSWORD}, 
+  (err, conn) => {
+  if(err) {
+    throw new InternalError(err);
+  }
+  conn.createChannel((err, channel) => {
+    if(err) {
+      throw new InternalError(err);
+    }
+
+    channel.assertQueue(process.env.RABBIT_QUEUEA, {durable: false});
+
+    channel.consume(process.env.RABBIT_QUEUEA, (msg) => {
+      console.log("Received message", msg.content.toString());
+    }, {
+      noAck: true
+    })
+  })
+});
