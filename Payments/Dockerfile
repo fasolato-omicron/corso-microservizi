@@ -16,11 +16,11 @@ RUN mkdir -p /usr/payments && cd /usr/payments
 WORKDIR /usr/payments
 
 COPY ["package.json", "*.js", "./"]
+RUN npm i
+
 COPY ./repository/ ./repository
 COPY ./routes/ ./routes
 COPY ./service/ ./service
-
-RUN npm i
 
 COPY --from=migrations /payments.db ${DATABASE_PATH}
 
