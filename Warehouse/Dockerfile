@@ -16,10 +16,10 @@ RUN mkdir -p /usr/warehouse && cd /usr/warehouse
 WORKDIR /usr/warehouse
 
 COPY ["package.json", "*.js", "./"]
+RUN npm i
+
 COPY ./repository/ ./repository
 COPY ./routes/ ./routes
-
-RUN npm i
 
 COPY --from=migrations /warehouse.db ${DATABASE_PATH}
 
