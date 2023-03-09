@@ -7,11 +7,12 @@ services:
     depends_on:
       - payments
       - warehouse
+      - rabbitmq
     networks:
       - omicron-microservizi
     ports:
       - 8080:8080
-    command: ["--services.orders.url=http://orders:3000/orders", "--services.warehouse.url=http://warehouse:3000/warehouse"]
+    command: ["--server.port=8080", "--services.orders.url=http://orders:3000/orders", "--services.warehouse.url=http://warehouse:3000/warehouse", "--spring.rabbitmq.host=omicron-microservizi-rabbit"]
 
   payments:
     build: Payments
@@ -21,6 +22,12 @@ services:
       - omicron-microservizi
     volumes:
       - omicron-microservizi-payments:/usr/payments/db
+    environment:
+      - RABBIT_HOST=omicron-microservizi-rabbit
+      - RABBIT_USER=admin
+      - RABBIT_PASSWORD=admin
+      - RABBIT_QUEUEA=queueA
+      - RABBIT_QUEUEB=queueB
     ports:
       - 8081:3000
 
@@ -32,8 +39,28 @@ services:
       - omicron-microservizi
     volumes:
       - omicron-microservizi-warehouse:/usr/warehouse/db
+    environment:
+      - RABBIT_HOST=omicron-microservizi-rabbit
+      - RABBIT_USER=admin
+      - RABBIT_PASSWORD=admin
+      - RABBIT_QUEUEA=queueA
+      - RABBIT_QUEUEB=queueB
     ports:
       - 8082:3000
+  
+  rabbitmq:
+    image: rabbitmq:3.10.19-management-alpine
+    restart: unless-stopped
+    networks:
+      - omicron-microservizi
+    hostname: omicron-microservizi-rabbit
+    ports:
+      - 8083:8080
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
 
 volumes:
   omicron-microservizi-payments:
