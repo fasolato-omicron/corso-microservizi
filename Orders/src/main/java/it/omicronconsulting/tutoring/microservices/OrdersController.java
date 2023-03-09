@@ -18,9 +18,11 @@ public class OrdersController {
     private static Logger log = LoggerFactory.getLogger(OrdersController.class);
 
     private PropertiesBean propertiesBean;
+    private JmsService jmsService;
 
-    public OrdersController(PropertiesBean propertiesBean) {
+    public OrdersController(PropertiesBean propertiesBean, JmsService jmsService) {
         this.propertiesBean = propertiesBean;
+        this.jmsService = jmsService;
     }
 
     @GetMapping("/healthcheck")
@@ -62,5 +64,11 @@ public class OrdersController {
         }
 
         return ResponseEntity.internalServerError().body("TODO");
+    }
+
+    @PostMapping("/queue-test")
+    public ResponseEntity<?> queueTest(@RequestBody OrderRequest orderRequest) {
+        jmsService.sendTestMessage(orderRequest);
+        return ResponseEntity.ok("OK");
     }
 }
