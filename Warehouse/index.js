@@ -1,6 +1,7 @@
 const express = require("express");
 const routes = require("./routes/routes");
 const amqp = require('amqplib/callback_api');
+const { InternalError } = require("./errors");
 require("dotenv").config();
 
 const app = express();
